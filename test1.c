@@ -235,3 +235,75 @@ PUT isPuttable(int x, int y, COLOR color){
 
   return ok;
 }
+
+/* プレイヤーが石を置く */
+void play(COLOR color){
+  int x, y;
+
+  /* 置く場所が決まるまで無限ループ */
+  while(1){
+    /* 置く場所の入力を受付 */
+    printf("横方向は？");
+    scanf("%d", &x);
+    printf("縦方向は？");
+    scanf("%d", &y);
+
+    /* 入力された場所におけるならループを抜ける */
+    if(isPuttable(x, y, color) == ok){
+      break;
+    }
+
+    /* 入力された場所に石が置けない場合の処理 */
+
+    printf("そこには置けません!!\n");
+    printf("下記に置く事ができます\n");
+
+    /* 置ける場所を表示 */
+    for(y = 0; y < HEIGHT; y++){
+      for(x = 0; x < WIDTH; x++){
+        if(isPuttable(x, y, color) == ok){
+          printf("(%d, %d)\n", x, y);
+        }
+      }
+    }
+  }
+
+  /* 最後に石を置く */
+  put(x, y, black);
+
+}
+
+/* COMが石を置く */
+void com(COLOR color){
+  int x, y;
+
+  /* 置ける場所を探索 */
+  for(y = 0; y < HEIGHT; y++){
+    for(x = 0; x < WIDTH; x++){
+      if(isPuttable(x, y, color) == ok){
+        /* 置けるなら即座にその位置に石を置いて終了 */
+        put(x, y, color);
+        printf("COMが(%d,%d)に石を置きました\n", x, y);
+        return ;
+      }
+    }
+  }
+}
+
+/* 結果を表示する */
+void result(void){
+  int x, y;
+  int white_count, black_count;
+
+  /* 盤上の白石と黒石の数をカウント */
+  white_count = 0;
+  black_count = 0;
+  for(y = 0; y < HEIGHT; y++){
+    for(x = 0; x < WIDTH; x++){
+      if(b[y][x] == white){
+        white_count++;
+      } else if(b[y][x] == black){
+        black_count++;
+      }
+    }
+  }
