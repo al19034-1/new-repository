@@ -39,3 +39,26 @@ int init(void){
 
   return 0;
 }
+
+/* マスを表示 */
+int displaySquare(COLOR square){
+
+  switch(square){
+  case white:
+    /* 白色の石は "o" で表示 */
+    printf("o");
+    break;
+  case black:
+    /* 黒色の石は "*" で表示 */
+    printf("*");
+    break;
+  case empty:
+    /* 空きは " " で表示 */
+    printf(" ");
+    break;
+  default:
+    printf("エラー");
+    return -1;
+  }
+  return 0; 
+}
