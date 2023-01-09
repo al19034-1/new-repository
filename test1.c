@@ -91,3 +91,69 @@ int display(void){
 
   return 0;
 }
+/* 指定された場所に石を置く */
+int put(int x, int y, COLOR color){
+  int i, j;
+  int s, n;
+  COLOR other;
+
+  /* 相手の石の色 */
+  if(color == white){
+    other = black;
+  } else if(color == black){
+    other = white;
+  } else {
+    return -1;
+  }
+
+  /* 全方向に対して挟んだ石をひっくり返す */
+  for(j = -1; j < 2; j++){
+    for(i = -1; i < 2; i++){
+
+      /* 真ん中方向はチェックしてもしょうがないので次の方向の確認に移る */
+      if(i == 0 && j == 0){
+        continue;
+      }
+
+      if(y + j <0 || x + i < 0 || y + j >= HEIGHT || x + i >= WIDTH){
+        continue;
+      }
+      /* 隣が相手の色でなければその方向でひっくり返せる石はない */
+      if(b[y + j][x + i] != other){
+        continue;
+      }
+
+      /* 置こうとしているマスから遠い方向へ１マスずつ確認 */
+      for(s = 2; s < SIZE; s++){
+        /* 盤面外のマスはチェックしない */
+        if(
+          x + i * s >= 0 &&
+          x + i * s < WIDTH &&
+          y + j * s >= 0 &&
+          y + j * s < HEIGHT
+        ){
+
+          if(b[y + j * s][x + i * s] == empty){
+            /* 自分の石が見つかる前に空きがある場合 */
+            /* この方向の石はひっくり返せないので次の方向をチェック */
+            break;
+          }
+
+          /* その方向に自分の色の石があれば石がひっくり返せる */
+          if(b[y + j * s][x + i * s] == color){
+            /* 石を置く */
+            b[y][x] = color;
+
+            /* 挟んだ石をひっくり返す */
+            for(n = 1; n < s; n++){
+              b[y + j * n][x + i * n] = color;
+            }
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  return 0;
+}
