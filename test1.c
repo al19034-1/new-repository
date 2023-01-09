@@ -62,3 +62,32 @@ int displaySquare(COLOR square){
   }
   return 0; 
 }
+
+/* 盤を表示 */
+int display(void){
+  int x, y;
+
+  for(y = 0; y < HEIGHT; y++){
+    /* 盤の横方向のマス番号を表示 */
+    if(y == 0){
+      printf(" ");
+      for(x = 0; x < WIDTH; x++){
+        printf("%d", x);
+      }
+      printf("\n");
+    }
+
+    for(x = 0; x < WIDTH; x++){
+      /* 盤の縦方向のます番号を表示 */
+      if(x == 0){
+        printf("%d", y);
+      }
+
+      /* 盤に置かれた石の情報を表示 */
+      displaySquare(b[y][x]);
+    }
+    printf("\n");
+  }
+
+  return 0;
+}
