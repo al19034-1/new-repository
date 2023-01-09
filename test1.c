@@ -307,3 +307,98 @@ void result(void){
       }
     }
   }
+
+
+  /* カウント数に応じて結果を表示 */
+  if(black_count > white_count){
+    printf("あなたの勝利です！！");
+  } else if(white_count > black_count){
+    printf("COMの勝利です...");
+  } else {
+    printf("引き分けです");
+  }
+  printf("(黒:%d / 白:%d)\n", black_count, white_count);
+
+}
+
+COLOR nextColor(COLOR now){
+  COLOR next;
+  int x, y;
+
+  /* まずは次の石の色を他方の色の石に設定 */
+  if(now == white){
+    next = black;
+  } else {
+    next = white;
+  }
+
+  /* 次の色の石が置けるかどうかを判断 */
+  for(y = 0; y < HEIGHT; y++){
+    for(x = 0; x < WIDTH; x++){
+      if(isPuttable(x, y, next) == ok){
+        /* 置けるのであれば他方の色の石が次のターンに置く石 */
+        return next;
+      }
+    }
+  }
+
+  /* 他方の色の石が置けない場合 */
+
+  /* 元々の色の石が置けるかどうかを判断 */
+  for(y = 0; y < HEIGHT; y++){
+    for(x = 0; x < WIDTH; x++){
+      if(isPuttable(x, y, now) == ok){
+        /* 置けるのであれば元々の色の石が次のターンに置く石 */
+        return now;
+      }
+    }
+  }
+
+  /* 両方の色の石が置けないのであれば試合は終了 */
+  return empty;
+}
+
+int main(void){
+  COLOR now, next;
+
+  /* 盤を初期化して表示 */
+  init();
+  display();
+
+  /* 最初に置く石の色 */
+  now = black;
+
+  /* 決着がつくまで無限ループ */
+  while(1){
+    if(now == black){
+      /* 置く石の色が黒の場合はあなたがプレイ */
+      play(now);
+      //com(now);
+    } else if(now == white){
+      /* 置く石の色が白の場合はCOMがプレイ */
+      com(now);
+    }
+
+    /* 石を置いた後の盤を表示 */
+    display();
+
+    /* 次のターンに置く石の色を決定 */
+    next = nextColor(now);
+    if(next == now){
+      /* 次も同じ色の石の場合 */
+      printf("置ける場所がないのでスキップします\n");
+    } else if(next == empty){
+      /* 両方の色の石が置けない場合 */
+      printf("試合終了です\n");
+
+      /* 結果表示して終了 */
+      result();
+      return 0;
+    }
+
+    /* 次のターンに置く石を設定 */
+    now = next;
+ 
+  }
+  return 0;
+}
