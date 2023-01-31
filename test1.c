@@ -51,7 +51,7 @@ int displaySquare(COLOR square){
     printf("o");
 
 /* コメントを入力 */
-    
+    break:
   case black:
     /* 黒色の石は "*" で表示 */
     printf("*");
