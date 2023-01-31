@@ -43,10 +43,14 @@ int init(void){
 /* マスを表示 */
 int displaySquare(COLOR square){
 
+
   switch(square){
   case white:
     /* 白色の石は "o" で表示 */
+
     printf("o");
+
+/* コメントを入力 */
     break;
   case black:
     /* 黒色の石は "*" で表示 */
