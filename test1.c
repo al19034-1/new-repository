@@ -23,6 +23,7 @@ COLOR b[HEIGHT][WIDTH];
 
 /* 盤を初期化 */
 int init(void){
+  /*コメントを入力*/
   unsigned char x, y;
 
   for(y = 0; y < HEIGHT; y++){
